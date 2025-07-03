@@ -1,0 +1,28 @@
+name: Sync to fiu-jouney-finfudge Repo
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    if: github.repository_owner == 'yash-finfactor'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Push to destination repository
+        uses: cpina/github-action-push-to-another-repo@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.CROSS_REPO_PAT }}
+        with:
+          source-directory: "."
+          destination-github-username: "Cookiejar-technologies-fiu-journey"
+          destination-repository-name: "fiu-jouney-finfudge"
+          user-email: yashd@github.com
+          user-name: GitHub Actions
+          destination-branch: main
+          commit-message: "Automated sync from source repository"
